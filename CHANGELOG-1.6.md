@@ -282,3 +282,11 @@
 - Change constructor of `Pim\Bundle\ImportExportBundle\Datagrid\JobDatagridProvider`, add `Pim\Bundle\ImportExportBundle\JobLabel\TranslatedLabelProvider`
 - Change constructor of `Pim\Bundle\ImportExportBundle\Normalizer\JobExecutionNormalizer`, add `Pim\Bundle\ImportExportBundle\JobLabel\TranslatedLabelProvider`
 - Change constructor of `Pim\Bundle\ImportExportBundle\Normalizer\StepExecutionNormalizer`, add `Pim\Bundle\ImportExportBundle\JobLabel\TranslatedLabelProvider`
+- Change constructor of `Pim\Bundle\CatalogBundle\EventSubscriber\MongoDBODM\ProductRelatedEntityRemovalSubscriber`:
+    replace `Doctrine\Common\Persistence\ManagerRegistry` argument by `Akeneo\Component\Console\CommandLauncher`,
+    second argument was the product class parameter and is replaced by the `ProductRelatedEntityRemovalCommand` logfile
+- Change constructor of `Pim\Bundle\CatalogBundle\EventSubscriber\MongoDBODM\RemoveOutdatedProductsFromAssociationsSubscriber`.
+    Replace `Pim\Bundle\CatalogBundle\Doctrine\MongoDBODM\ProductRepositoryInterface` argument by `Akeneo\Component\Console\CommandLauncher`
+    and `Pim\Component\Catalog\Repository\AssociationTypeRepositoryInterface` argument by a string (`RemoveOutdatedProductsFromAssociationsCommand` logfile)
+- Change constructor of `Pim\Bundle\CatalogBundle\EventSubscriber\MongoDBODM\UpdateNormalizedProductDataSubscriber`.
+    Replace `Doctrine\Common\Persistence\ManagerRegistry` argument by `Akeneo\Component\Console\CommandLauncher` and add a string as third argument (`UpdateNormalizedProductDataCommand` logfile)
