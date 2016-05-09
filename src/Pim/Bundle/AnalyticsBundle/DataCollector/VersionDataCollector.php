@@ -19,6 +19,9 @@ use Pim\Bundle\CatalogBundle\VersionProviderInterface;
  */
 class VersionDataCollector implements DataCollectorInterface
 {
+    /** @var VersionProviderInterface */
+    protected $versionProvider;
+
     /** @var string */
     protected $catalogStorage;
 
@@ -27,9 +30,6 @@ class VersionDataCollector implements DataCollectorInterface
 
     /** @var string */
     protected $installTime;
-
-    /** @var VersionProviderInterface */
-    protected $versionProvider;
 
     /**
      * @param VersionProviderInterface $versionProvider

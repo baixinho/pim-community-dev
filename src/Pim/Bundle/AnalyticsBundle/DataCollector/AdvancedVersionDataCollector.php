@@ -3,8 +3,7 @@
 namespace Pim\Bundle\AnalyticsBundle\DataCollector;
 
 use Akeneo\Component\Analytics\DataCollectorInterface;
-use Pim\Bundle\AnalyticsBundle\Provider\ServerVersionProvider;
-use Pim\Bundle\AnalyticsBundle\Provider\StorageVersionProvider;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Returns advanced data about the host server of the PIM
@@ -18,22 +17,27 @@ use Pim\Bundle\AnalyticsBundle\Provider\StorageVersionProvider;
  */
 class AdvancedVersionDataCollector implements DataCollectorInterface
 {
-    /** @var ServerVersionProvider */
-    protected $serverVersionProvider;
+    const DIVERGENT_MARIADB_VERSION = '10';
 
-    /** @var StorageVersionProvider */
-    protected $storageVersionProvider;
+    /** @var RequestStack */
+    protected $requestStack;
+
+    /** @var string */
+    protected $mongoServer;
+
+    /** @var string */
+    protected $mongoDatabase;
 
     /**
-     * @param StorageVersionProvider $storageVersionProvider
-     * @param ServerVersionProvider  $serverVersionProvider
+     * @param RequestStack $requestStack
+     * @param string|null  $mongoServer
+     * @param string|null  $mongoDatabase
      */
-    public function __construct(
-        StorageVersionProvider $storageVersionProvider,
-        ServerVersionProvider $serverVersionProvider
-    ) {
-        $this->storageVersionProvider = $storageVersionProvider;
-        $this->serverVersionProvider  = $serverVersionProvider;
+    public function __construct(RequestStack $requestStack, $mongoServer = null, $mongoDatabase = null)
+    {
+        $this->requestStack  = $requestStack;
+        $this->mongoServer   = $mongoServer;
+        $this->mongoDatabase = $mongoDatabase;
     }
 
     /**
@@ -42,8 +46,81 @@ class AdvancedVersionDataCollector implements DataCollectorInterface
     public function collect()
     {
         return array_merge(
-            $this->storageVersionProvider->provide(),
-            $this->serverVersionProvider->provide()
+            $this->getStorageVersion(),
+            $this->getServerVersion()
         );
+    }
+
+    /**
+     * Returns the server version.
+     *
+     * @return array
+     */
+    protected function getServerVersion()
+    {
+        $version = [];
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (null !== $request) {
+            $version = ['server_version' => $request->server->get('SERVER_SOFTWARE')];
+        }
+
+        return $version;
+    }
+
+    /**
+     * Returns MySQL/MariaDB version and, if used, MongoDB version.
+     *
+     * @return array
+     */
+    public function getStorageVersion()
+    {
+        $version = $this->getSQLVersion();
+
+        if (null !== $this->mongoServer && null !== $this->mongoDatabase) {
+            $version = array_merge(
+                $version,
+                $this->getMongoDBVersion()
+            );
+        }
+
+        return $version;
+    }
+
+    /**
+     * Returns the version of MySQL or MariaDB.
+     *
+     * MySQL and MariaDB are fully compatible (for now) and the PHP driver cannot
+     * tell the difference.
+     * But as MariaDB started to diverge internally, the version numbers are now
+     * different, with MariaDB tags starting at 10.*. So we assume that if
+     * version is 10 or higher it is MariaDB, if lower it is MySQL.
+     *
+     * @return array
+     */
+    protected function getSQLVersion()
+    {
+        $version = mysqli_get_client_info();
+
+        true === version_compare($version, static::DIVERGENT_MARIADB_VERSION, '>=') ?
+            $storage = 'mariadb_version' :
+            $storage = 'mysql_version';
+
+        return [$storage => $version];
+    }
+
+    /**
+     * Returns the version of MongoDB, if used.
+     *
+     * @return array
+     */
+    protected function getMongoDBVersion()
+    {
+        $client = new \MongoClient($this->mongoServer);
+
+        $mongo = new \MongoDB($client, $this->mongoDatabase);
+        $mongodbInfo = $mongo->command(['serverStatus' => true]);
+
+        return ['mongodb_version' => $mongodbInfo['version']];
     }
 }

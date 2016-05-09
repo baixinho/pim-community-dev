@@ -8,6 +8,7 @@
 - PIM-5099: The catalog structure can now be exported in XLSX format (families, attributes, attribute options, association types and categories)
 - PIM-5097: The catalog structure can now be imported in XLSX format (families, attributes, attribute options, association types and categories)
 - PIM-5657: It is now possible to add custom tabs within the job profile and edit pages
+- PIM-5781: Add new data on the "system information" screen (data volumetry, information about the operating system)
 
 ## Scalability improvements
 
@@ -29,6 +30,7 @@
 - Integrates the AkeneoMeasureBundle in our main repository
 - TIP-245: Add datetime filters in the Product Query Builder, allowing to select products on "created at" and "updated at" fields.
 - PIM-5657: Introduce a `JobTemplateProvider` that holds the job template codes to use for creating, showing, editing job profiles. The provider uses configuration files in order to retrieve overridden templates for specific job names
+- PIM-5781: Introduce a new command to get system information from the command line
 
 ## BC breaks
 
