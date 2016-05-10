@@ -132,6 +132,7 @@ class DatagridViewController
             [
                 'alias' => $alias,
                 'views' => $views,
+                'defaultViewColumns' => array_keys($this->datagridViewManager->getColumnChoices($alias, true)),
                 'form'  => $form->createView(),
             ]
         );
