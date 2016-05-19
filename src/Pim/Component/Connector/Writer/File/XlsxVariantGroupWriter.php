@@ -103,6 +103,8 @@ class XlsxVariantGroupWriter extends AbstractFileWriter implements ItemWriterInt
     }
 
     /**
+     * TODO: should be dropped at the end
+     *
      * {@inheritdoc}
      */
     public function getWrittenFiles()
