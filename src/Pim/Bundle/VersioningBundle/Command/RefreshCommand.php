@@ -25,7 +25,7 @@ class RefreshCommand extends ContainerAwareCommand
     {
         $this
             ->setName('pim:versioning:refresh')
-            ->setDescription('Version any updated entities')
+            ->setDescription('Refresh versions of any updated entities')
             ->addOption(
                 'show-log',
                 null,
@@ -66,7 +66,7 @@ class RefreshCommand extends ContainerAwareCommand
 
         $batchSize = $input->getOption('batch-size');
 
-        $cacheClearer = $this->getCacheClearer();
+        $objectDetacher = $this->getObjectDetacher();
         $om = $this->getObjectManager();
 
         $pendingVersions = $this->getVersionManager()
@@ -90,7 +90,7 @@ class RefreshCommand extends ContainerAwareCommand
                 $progress->advance();
             }
             $om->flush();
-            $cacheClearer->clear();
+            $objectDetacher->detachAll($pendingVersions);
 
             $pendingVersions = $this->getVersionManager()
                 ->getVersionRepository()
@@ -140,11 +140,11 @@ class RefreshCommand extends ContainerAwareCommand
     }
 
     /**
-     * @return CacheClearer
+     * @return ObjectDetacher
      */
-    protected function getCacheClearer()
+    protected function getObjectDetacher()
     {
-        return $this->getContainer()->get('pim_transform.cache.product_cache_clearer');
+        return $this->getContainer()->get('akeneo_storage_utils.doctrine.object_detacher');
     }
 
     /**

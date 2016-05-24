@@ -79,4 +79,15 @@ interface VersionRepositoryInterface
      * @return array
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+
+    /**
+     * Find versiosn older than date
+     *
+     * @param $resourceName
+     * @param \DateTime $date
+     * @param $operator
+     *
+     * @return array
+     */
+    public function getResourcesByDate($resourceName, $operator, \Datetime $limitDate);
 }

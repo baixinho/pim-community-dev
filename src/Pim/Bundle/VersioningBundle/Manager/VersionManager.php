@@ -4,10 +4,13 @@ namespace Pim\Bundle\VersioningBundle\Manager;
 
 use Akeneo\Bundle\StorageUtilsBundle\Doctrine\SmartManagerRegistry;
 use Akeneo\Component\Versioning\Model\Version;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Util\ClassUtils;
 use Pim\Bundle\VersioningBundle\Builder\VersionBuilder;
 use Pim\Bundle\VersioningBundle\Event\BuildVersionEvent;
 use Pim\Bundle\VersioningBundle\Event\BuildVersionEvents;
+use Pim\Bundle\VersioningBundle\Repository\VersionRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -25,6 +28,13 @@ class VersionManager
      * @var string
      */
     const DEFAULT_SYSTEM_USER = 'admin';
+
+    /** @staticvar string */
+    const OPERATOR_DATE_OLDER = '<';
+
+    /** @staticvar string */
+    const OPERATOR_DATE_YOUNGER = '>';
+
 
     /**
      * @var bool
@@ -163,7 +173,7 @@ class VersionManager
     /**
      * Get object manager for Version
      *
-     * @return \Doctrine\Common\Persistence\ObjectManager
+     * @return ObjectManager
      */
     public function getObjectManager()
     {
@@ -171,7 +181,7 @@ class VersionManager
     }
 
     /**
-     * @return \Pim\Bundle\VersioningBundle\Repository\VersionRepositoryInterface
+     * @return VersionRepositoryInterface
      */
     public function getVersionRepository()
     {
@@ -183,7 +193,7 @@ class VersionManager
      *
      * @param object $versionable
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getLogEntries($versionable)
     {
@@ -274,5 +284,36 @@ class VersionManager
         }
 
         return $createdVersions;
+    }
+
+    /**
+     * List versions of entity. If a date is provided it should delete versions older than the number of days
+     *
+     * @param string $resourceName
+     * @param int $numberOfDays
+     * @param string $operator
+     *
+     * @return Version[]
+     */
+    public function getVersionsByDate($resourceName, $operator = self::OPERATOR_DATE_OLDER, $numberOfDays = 0)
+    {
+        $limitDate = date_sub(
+            new \Datetime('now', new \DateTimeZone('UTC')),
+            date_interval_create_from_date_string(
+                sprintf('%s days', $numberOfDays)
+            )
+        );
+
+        return $this->getVersionRepository()->getResourcesByDate($resourceName, $operator, $limitDate);
+    }
+
+    /**
+     * Delete versions of entity. If a date is provided it should delete versions older than the number of days
+     *
+     * @param array $versions
+     */
+    public function purgeVersions(array $versions)
+    {
+        $this->getVersionRepository()->purgeResources($versions);
     }
 }
