@@ -12,6 +12,7 @@
 - PIM-5427: It is now possible to filter by families for product export
 - PIM-5145: It is now possible to filter product exports by locale
 - PIM-5426: It is now possible to filter product exports by completeness
+- PIM-5431: export the products updated since a defined date
 
 ## Scalability improvements
 
@@ -289,4 +290,4 @@
 - Change constructor of `Pim\Bundle\ImportExportBundle\Form\Type\JobInstanceType`, add `Akeneo\Component\Batch\Job\JobParametersFactory` and `Pim\Bundle\ImportExportBundle\JobLabel\TranslatedLabelProvider` arguments
 - Change constructor of `Akeneo\Component\Batch\Model\Warning` to remove the $name argument, we also remove related getter/setter
 - Remove getName() from `Akeneo\Component\Batch\Item\AbstractConfigurableStepElement`
-- Remove $name argument from addWarning method of `Akeneo\Component\Batch\Model\StepExecution` 
+- Remove $name argument from addWarning method of `Akeneo\Component\Batch\Model\StepExecution`

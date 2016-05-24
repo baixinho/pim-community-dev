@@ -24,16 +24,17 @@ class ProductXlsxExportSpec extends ObjectBehavior
         $decoratedProvider->getDefaultValues()->willReturn(['decoratedParam' => true]);
         $this->getDefaultValues()->shouldReturn(
             [
-                'decoratedParam'   => true,
-                'decimalSeparator' => ".",
-                'dateFormat'       => "yyyy-MM-dd",
-                'channel'          => null,
-                'locales'          => [],
-                'enabled'          => "enabled",
-                'updated'          => "all",
+                'decoratedParam'    => true,
+                'decimalSeparator'  => '.',
+                'dateFormat'        => 'yyyy-MM-dd',
+                'channel'           => null,
+                'enabled'           => 'enabled',
+                'updated_condition' => 'all',
+                'exported_since'    => null,
                 'completeness'     => 'at_least_one_complete',
-                'linesPerFile'     => 10000,
-                'families'         => null,
+                'linesPerFile'      => 10000,
+                'channel'           => null,
+                'families'          => null,
             ]
         );
     }

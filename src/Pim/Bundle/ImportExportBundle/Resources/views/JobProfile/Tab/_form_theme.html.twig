@@ -1,0 +1,37 @@
+{% block pim_updated_parameter_type_row %}
+    <div class="control-group" id="{{ form.vars.id }}">
+        {{ form_label(form, null, {'label_attr': {'class': 'control-label'}}) }}
+        <div class="controls">
+            {{ form_widget(form.updated_condition) }}
+
+            {{ form_widget(form.exported_since) }}
+
+            {% if help is defined %}
+                <div class="icons-container">
+                <i class="icon-info-sign"
+                   data-toggle="tooltip"
+                   data-placement="right"
+                   data-original-title="{{ help|trans }}">
+                </i>
+            </div>
+            {% endif %}
+
+            {% if info is defined %}
+                <div>{{ info|trans }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require(
+            ['jquery', 'pim/product-export/updated-selector'],
+            function($, UpdatedSelector){
+                'use strict';
+
+                $(function () {
+                    UpdatedSelector.init({{ form.vars.id }});
+                });
+            }
+        );
+    </script>
+{% endblock %}

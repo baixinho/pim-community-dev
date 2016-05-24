@@ -42,8 +42,9 @@ class ProductXlsxExport implements DefaultValuesProviderInterface
         $parameters['channel'] = null;
         $parameters['locales'] = [];
         $parameters['enabled'] = 'enabled';
-        $parameters['updated'] = 'all';
         $parameters['completeness'] = 'at_least_one_complete';
+        $parameters['updated_condition'] = 'all';
+        $parameters['exported_since'] = null;
         $parameters['linesPerFile'] = 10000;
         $parameters['families'] = null;
 

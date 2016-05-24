@@ -825,6 +825,64 @@ class WebUser extends RawMinkContext
     }
 
     /**
+     * @When /^I change condition time to "([^"]*)"$/
+     */
+    public function iChangeConditionTimeTo($value)
+    {
+        $link = $this->spin(function () {
+            return $this->getSession()->getPage()->find(
+                'css',
+                '#s2id_pim_import_export_jobInstance_configuration_updated_updated_condition a.select2-choice'
+            );
+        });
+
+        $link->click();
+
+        $field = $this->spin(function () use ($value) {
+            return $this->getSession()->getPage()->find('css', sprintf('#select2-drop li:contains("%s")', $value));
+        });
+
+        $field->click();
+    }
+
+    /**
+     * @Then /^I should not see the date input$/
+     */
+    public function iShouldNotSeeTheDateInput()
+    {
+        $input = $this->spin(function () {
+            return $this->getSession()->getPage()->find(
+                'css',
+                '#pim_import_export_jobInstance_configuration_updated_exported_since'
+            );
+        }, 'The date input for the updated condition time does not exist');
+        
+        
+        if ($input->isVisible()) {
+            throw new \Exception('The date input for the updated condition time should not be visible');
+        }
+    }
+    
+    /**
+     * @Then /^the date input should contain "([^"]*)"$/
+     */
+    public function theDateInputShouldContains($exceptedValue)
+    {
+        $input = $this->spin(function () {
+            return $this->getSession()->getPage()->find(
+                'css',
+                '#pim_import_export_jobInstance_configuration_updated_exported_since'
+            );
+        }, 'The date input for the updated condition time does not exist');
+
+        $value = $input->getValue();
+        
+        if ($exceptedValue !== $value) {
+            throw new \Exception(sprintf('The date input does not contain %s but %s', $exceptedValue, $value));
+        }
+    }
+
+    /**
      * @param $field
      *
      * @When /^I click on the field (?P<field>\w+)$/

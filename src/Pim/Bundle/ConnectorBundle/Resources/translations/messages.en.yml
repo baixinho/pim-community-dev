@@ -78,8 +78,11 @@ pim_connector:
                 none: This job has never been exported
                 last: Last export: %date%
             choice:
+                since_date: Updated products since the defined date
                 last_export: Updated products since last export
                 all: All
+        date:
+            placeholder: Choose your date
         decimalSeparator:
             label: Decimal separator
             help: Determine the decimal separator

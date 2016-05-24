@@ -22,19 +22,18 @@ class ProductCsvExportSpec extends ObjectBehavior
     function it_provides_default_values($decoratedProvider)
     {
         $decoratedProvider->getDefaultValues()->willReturn(['decoratedParam' => true]);
-        $this->getDefaultValues()->shouldReturn(
-            [
-                'decoratedParam'   => true,
-                'decimalSeparator' => '.',
-                'dateFormat'       => 'yyyy-MM-dd',
-                'channel'          => null,
-                'locales'          => [],
-                'enabled'          => 'enabled',
-                'updated'          => 'all',
-                'families'         => null,
-                'completeness'     => 'at_least_one_complete',
-            ]
-        );
+        $this->getDefaultValues()->shouldReturn([
+            'decoratedParam'    => true,
+            'decimalSeparator'  => '.',
+            'dateFormat'        => 'yyyy-MM-dd',
+            'channel'           => null,
+            'enabled'           => 'enabled',
+            'updated_condition' => 'all',
+            'exported_since'    => null,
+            'families'          => null,
+            'locales'           => [],
+            'completeness'     => 'at_least_one_complete',
+        ]);
     }
 
     function it_supports_a_job(JobInterface $job)

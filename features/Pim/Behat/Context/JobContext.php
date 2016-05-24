@@ -33,6 +33,10 @@ class JobContext extends PimContext
                 $value = $this->getMainContext()->listToArray($value);
             }
 
+            if (in_array($property, ['exported_since'])) {
+                $value = (new \DateTime($value))->format('Y-m-d H:i:s');
+            }
+
             $configuration[$property] = $value;
         }
 
