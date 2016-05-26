@@ -10,6 +10,7 @@ use Pim\Component\Catalog\Model\CurrencyInterface;
 use Pim\Component\Catalog\Model\LocaleInterface;
 use Pim\Component\Catalog\Repository\AttributeRepositoryInterface;
 use Psr\Log\LoggerInterface;
+use Pim\Bundle\CatalogBundle\ProductQueryUtility;
 
 /**
  * Create index for different entity requirements

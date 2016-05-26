@@ -8,6 +8,7 @@ use Pim\Component\Catalog\Model\AttributeInterface;
 use Pim\Component\Catalog\Model\ChannelInterface;
 use Pim\Component\Catalog\Model\CurrencyInterface;
 use Pim\Component\Catalog\Model\LocaleInterface;
+use Pim\Bundle\CatalogBundle\ProductQueryUtility;
 
 /**
  * Makes sure that the indexes links to entity are removed.
