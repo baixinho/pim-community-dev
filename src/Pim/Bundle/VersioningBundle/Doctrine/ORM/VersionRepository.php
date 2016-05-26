@@ -148,7 +148,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
      * @param string $resourceName
      * @param string $operator
      *
-     * @param \DateTime $date
+     * @param \Datetime $limitDate
      *
      * @return array
      */
@@ -174,7 +174,12 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
         return $qb->getQuery()->getResult();
     }
 
-    public function purgeResources(array $versions)
+    /**
+     * Remove versions
+     *
+     * @param array $versions
+     */
+    public function deleteResources(array $versions)
     {
         $em = $this->getEntityManager();
         foreach ($versions as $version) {

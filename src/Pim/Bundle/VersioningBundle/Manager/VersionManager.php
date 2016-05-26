@@ -35,7 +35,6 @@ class VersionManager
     /** @staticvar string */
     const OPERATOR_DATE_YOUNGER = '>';
 
-
     /**
      * @var bool
      */
@@ -299,9 +298,7 @@ class VersionManager
     {
         $limitDate = date_sub(
             new \Datetime('now', new \DateTimeZone('UTC')),
-            date_interval_create_from_date_string(
-                sprintf('%s days', $numberOfDays)
-            )
+            date_interval_create_from_date_string(sprintf('%s days', $numberOfDays))
         );
 
         return $this->getVersionRepository()->getResourcesByDate($resourceName, $operator, $limitDate);
@@ -314,6 +311,32 @@ class VersionManager
      */
     public function purgeVersions(array $versions)
     {
-        $this->getVersionRepository()->purgeResources($versions);
+        $versionsToDelete = $this->getVersionsToPurge($versions);
+        $this->getVersionRepository()->deleteResources($versionsToDelete);
+    }
+
+    /**
+     * Get the versions to delete.
+     *
+     * @param array $versions
+     *
+     * @return array
+     */
+    protected function getVersionsToPurge(array $versions)
+    {
+        $versionsToDelete = [];
+        foreach ($versions as $version) {
+            $newestVersion = $this->getVersionRepository()->getNewestLogEntry(
+                $version->getResourceName(),
+                $version->getResourceId()
+            );
+
+            if (1 !== $version->getVersion() &&
+                (null === $newestVersion || $version->getId() !== $newestVersion->getId())) {
+                $versionsToDelete[] = $version;
+            }
+        }
+
+        return $versionsToDelete;
     }
 }

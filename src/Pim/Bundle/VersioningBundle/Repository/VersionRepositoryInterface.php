@@ -90,4 +90,13 @@ interface VersionRepositoryInterface
      * @return array
      */
     public function getResourcesByDate($resourceName, $operator, \Datetime $limitDate);
+
+    /**
+     * Deletes versions
+     *
+     * @param array $resources
+     *
+     * @return mixed
+     */
+    public function deleteResources(array $resources);
 }

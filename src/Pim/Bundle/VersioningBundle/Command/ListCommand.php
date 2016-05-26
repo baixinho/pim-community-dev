@@ -123,7 +123,7 @@ class ListCommand extends ContainerAwareCommand
         $table->setRows($versionsInfo);
         $table->render();
 
-        $output->writeln(sprintf('<info>%s number of versions for entity %s.</info>', count($versions),$entityType));
+        $output->writeln(sprintf('<info>%s number of versions for entity %s.</info>', count($versions), $entityType));
     }
 
     /**

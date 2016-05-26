@@ -103,6 +103,7 @@ class PurgeCommand extends ContainerAwareCommand
         }
 
         $versions = $versionManager->getVersionsByDate($resourceName, $dateOperator, $numberOfDays);
+        $versions = $versionManager->purgeVersions($versions);
         if (0 === count($versions)) {
             $output->writeln(sprintf('<info>No versions found for entity %s. Nothing to do.</info>', count($versions)));
 
@@ -114,9 +115,9 @@ class PurgeCommand extends ContainerAwareCommand
             return;
         }
 
-        $output->writeln(sprintf('<info>%s number of versions set for deletion for entity %s.</info>', count($versions), $entityType));
+        $output->writeln(sprintf('<info>Starting the deletion for entity %s.</info>', $entityType));
         $versionManager->purgeVersions($versions);
-        $output->writeln(sprintf('<info>%s versions of %s successfully deleted.</info>', count($versions), $entityType));
+        $output->writeln(sprintf('<info>Successfully delete the versions of entity %s.</info>', $entityType));
     }
 
     /**

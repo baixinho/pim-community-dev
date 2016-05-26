@@ -5,6 +5,7 @@ namespace spec\Pim\Bundle\VersioningBundle\Manager;
 use Akeneo\Bundle\StorageUtilsBundle\Doctrine\SmartManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
+use Pim\Bundle\VersioningBundle\Manager\VersionManager;
 use Pim\Component\Catalog\Model\ProductInterface;
 use Pim\Bundle\VersioningBundle\Builder\VersionBuilder;
 use Pim\Bundle\VersioningBundle\Manager\VersionContext;
@@ -100,5 +101,40 @@ class VersionManagerSpec extends ObjectBehavior
 
         $versions = $this->buildPendingVersions($product);
         $versions->shouldHaveCount(2);
+    }
+
+    function it_lists_the_versions_by_date_and_resource_name($versionRepository, Version $version1)
+    {
+        $resourceName = 'product';
+        $operator = VersionManager::OPERATOR_DATE_OLDER;
+
+        $versionRepository->getResourcesByDate($resourceName, $operator, Argument::type('\Datetime'))
+            ->shouldBecalled()
+            ->willReturn([$version1]);
+
+        $this->getVersionsByDate($resourceName, $operator, 31)->shouldReturn([$version1]);
+    }
+
+    function it_purges_the_versions_by_date_and_resource_name($versionRepository, Version $version1, Version $version2)
+    {
+        $resourceName = 'product';
+        $resourceId = 12;
+
+        $version1->getId()->willReturn(1);
+        $version1->getResourceName()->willReturn($resourceName);
+        $version1->getResourceId()->willReturn($resourceId);
+
+        $version2->getId()->willReturn(2);
+        $version2->getResourceName()->willReturn($resourceName);
+        $version2->getResourceId()->willReturn(12);
+
+        $versionRepository
+            ->getNewestLogEntry($resourceName, $resourceId)
+            ->shouldBeCalledTimes(2)
+            ->willReturn($version2);
+
+        $versionRepository->deleteResources([$version1])->shouldBecalled();
+
+        $this->purgeVersions([$version1, $version2]);
     }
 }
