@@ -126,6 +126,7 @@ class ProductReaderSpec extends ObjectBehavior
         $jobParameters->get('updated')->willReturn('all');
         $jobParameters->get('families')->willReturn('mugs,webcams');
         $jobParameters->get('completeness')->willReturn('all');
+        $jobParameters->get('updated_condition')->willReturn(null);
 
         $channelRepository->findOneByIdentifier('mobile')->willReturn($channel);
         $channel->getCategory()->willReturn($channelRoot);
@@ -496,6 +497,7 @@ class ProductReaderSpec extends ObjectBehavior
         $jobParameters->get('enabled')->willReturn('all');
         $jobParameters->get('updated_condition')->willReturn('since_date');
         $jobParameters->get('exported_since')->willReturn('2016-06-06');
+        $jobParameters->get('families')->willReturn('');
         
         $channelRepository->findOneByIdentifier('mobile')->willReturn($channel);
         $channel->getCategory()->willReturn($channelRoot);

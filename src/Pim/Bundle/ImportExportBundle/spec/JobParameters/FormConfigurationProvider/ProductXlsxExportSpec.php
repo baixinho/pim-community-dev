@@ -20,7 +20,7 @@ class ProductXlsxExportSpec extends ObjectBehavior
         $this->beConstructedWith(
             $simpleCsvExport,
             $channelRepository,
-            $familyRepository
+            $familyRepository,
             ['product_xlsx_export'],
             [',', ';'],
             ['yyyy-MM-dd', 'dd/MM/yyyy']
