@@ -90,6 +90,7 @@ class XlsxSimpleWriterSpec extends ObjectBehavior
     }
 
     function it_writes_the_xlsx_file(
+        $archiveStorage,
         $flusher,
         $flatRowBuffer,
         StepExecution $stepExecution,
@@ -98,6 +99,7 @@ class XlsxSimpleWriterSpec extends ObjectBehavior
     ) {
         $this->setStepExecution($stepExecution);
 
+        $archiveStorage->getPathname($jobExecution)->willReturn(tempnam(sys_get_temp_dir(), 'spec'));
         $flusher->setStepExecution($stepExecution)->shouldBeCalled();
 
         $stepExecution->getJobExecution()->willReturn($jobExecution);
@@ -108,8 +110,8 @@ class XlsxSimpleWriterSpec extends ObjectBehavior
 
         $flusher->flush(
             $flatRowBuffer,
-            2,
             Argument::type('string'),
+            2,
             Argument::type('array')
         )->willReturn(['my/file/path/foo1', 'my/file/path/foo2']);
 
