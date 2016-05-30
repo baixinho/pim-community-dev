@@ -53,10 +53,6 @@ class ProductCsvExport implements ConstraintCollectionProviderInterface
         $constraintFields['updated_condition'] = new NotBlank(['groups' => 'Execution']);
         $constraintFields['exported_since'] = [
             new DateTime(['groups' => 'Execution']),
-            new Expression([
-                'expression' => 'value === null && this.get("updated_condition") !== "since_date"',
-                'groups'     => 'Execution',
-            ]),
         ];
         $constraintFields['locales'] = new NotBlank([
             'groups'  => 'Execution',

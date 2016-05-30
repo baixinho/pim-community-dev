@@ -50,7 +50,7 @@ class ProductCsvExport implements FormConfigurationProviderInterface
     /**
      * @param FormConfigurationProviderInterface $simpleCsvExport
      * @param ChannelRepositoryInterface         $channelRepository
-     * @param JobRepositoryInterface             $jobRepository
+     * @param FamilyRepositoryInterface          $familyRepository
      * @param array                              $supportedJobNames
      * @param array                              $decimalSeparators
      * @param array                              $dateFormats

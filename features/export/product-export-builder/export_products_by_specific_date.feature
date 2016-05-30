@@ -70,6 +70,7 @@ Feature: Export products according to a date
       | filePath          | %tmp%/product_export/product_export.csv |
       | updated_condition | since_date                              |
       | exported_since    | 2016-04-25                              |
+      | locales           | en_US                                   |
     And I am logged in as "Julia"
     When I am on the "csv_footwear_product_export" export job page
     And I launch the export job
