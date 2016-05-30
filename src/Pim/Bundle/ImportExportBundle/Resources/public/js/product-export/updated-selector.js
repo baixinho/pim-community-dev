@@ -20,12 +20,12 @@ define(
                 var $container = $(container);
 
                 this.$conditionTime = $container.find('select');
-                this.$exportedSince = $container.find('input');
+                this.$exportedSince = $container.find('input.datepicker');
 
                 this._displayDateElement();
 
                 this.$conditionTime.on('change', this._displayDateElement.bind(this));
-                Datepicker.init($container);
+                Datepicker.init(this.$exportedSince.parent());
             },
 
             /**
