@@ -43,7 +43,7 @@ Feature: Export products according to a date
     And I follow "Content"
     Then I should not see the date input
     When I change condition time to "Updated products since the defined date"
-    When I fill in "Choose your date" with "05/25/2016"
+    When I change date to "05/25/2016"
     And I press "Save"
     Then I should be on the "csv_footwear_product_export" export job page
     When I follow "Content"

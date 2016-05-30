@@ -834,15 +834,29 @@ class WebUser extends RawMinkContext
                 'css',
                 '#s2id_pim_import_export_jobInstance_configuration_updated_updated_condition a.select2-choice'
             );
-        });
+        }, 'Could not find the element');
 
         $link->click();
 
         $field = $this->spin(function () use ($value) {
             return $this->getSession()->getPage()->find('css', sprintf('#select2-drop li:contains("%s")', $value));
-        });
+        }, 'Could not find the element');
 
         $field->click();
+    }
+
+    /**
+     * @When /^I change date to "([^"]*)"$/
+     */
+    public function iChangeDateTo($value)
+    {
+        $this->getSession()->executeScript(
+            sprintf(
+                "$('#%s').val('%s');",
+                'pim_import_export_jobInstance_configuration_updated_exported_since',
+                $value
+            )
+        );
     }
 
     /**
