@@ -15,6 +15,7 @@ Feature: Create an attribute
       | Code            | short_description |
       | Attribute group | Other             |
     And I save the attribute
+    And I wait 300 seconds
     Then I should see the flash message "Attribute successfully created"
 
   @info Codes 'id', associationTypes', 'categories', 'categoryId', 'completeness', 'enabled', 'family', 'groups', 'associations', 'products', 'scope', 'treeId', 'values', '*_groups' and '*_products' are reserved for grid filters and import/export column names
