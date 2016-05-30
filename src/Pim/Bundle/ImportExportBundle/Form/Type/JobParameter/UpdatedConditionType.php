@@ -14,6 +14,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Updated time condition type use in export builder
@@ -76,11 +78,10 @@ class UpdatedConditionType extends AbstractType
         $builder
             ->add('updated_condition', 'choice', [
                 'choices' => [
-                    'all'         => 'pim_connector.export.updated.choice.all',
-                    'last_export' => 'pim_connector.export.updated.choice.last_export',
-                    'since_date'  => 'pim_connector.export.updated.choice.since_date',
+                    'all'         => 'pim_connector.export.updated.updated_condition.choice.all',
+                    'last_export' => 'pim_connector.export.updated.updated_condition.choice.last_export',
+                    'since_date'  => 'pim_connector.export.updated.updated_condition.choice.since_date',
                 ],
-                'required' => true,
                 'select2'  => true,
                 'label'    => false,
             ])
@@ -90,9 +91,21 @@ class UpdatedConditionType extends AbstractType
                 'label'  => false,
                 'input'  => 'string',
                 'attr'   => [
-                    'placeholder'  => 'pim_connector.export.date.placeholder',
+                    'placeholder'  => 'pim_connector.export.updated.exported_since.placeholder',
                     'class'        => 'datepicker add-on input-large',
                     'autocomplete' => 'off',
+                ],
+                'constraints' => [
+                    new Callback([
+                        'callback' => function ($value, ExecutionContextInterface $context) use ($options) {
+                            if (empty($value) &&
+                                'since_date' === $options['job_instance']->getRawConfiguration()['updated_condition']) {
+                                $context->buildViolation('pim_connector.export.updated.exported_since.error')
+                                    ->atPath('exported_since')
+                                    ->addViolation();
+                            }
+                        },
+                    ])
                 ]
             ])
         ;

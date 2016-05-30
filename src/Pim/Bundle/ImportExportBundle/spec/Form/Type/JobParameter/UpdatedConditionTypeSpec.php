@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\Callback;
 
 class UpdatedConditionTypeSpec extends ObjectBehavior
 {
@@ -59,26 +60,22 @@ class UpdatedConditionTypeSpec extends ObjectBehavior
         
         $builder->add('updated_condition', 'choice', [
             'choices'  => [
-                'all'         => 'pim_connector.export.updated.choice.all',
-                'last_export' => 'pim_connector.export.updated.choice.last_export',
-                'since_date'  => 'pim_connector.export.updated.choice.since_date',
+                'all'         => 'pim_connector.export.updated.updated_condition.choice.all',
+                'last_export' => 'pim_connector.export.updated.updated_condition.choice.last_export',
+                'since_date'  => 'pim_connector.export.updated.updated_condition.choice.since_date',
             ],
-            'required' => true,
             'select2'  => true,
             'label'    => false,
         ])->willReturn($builder);
 
-        $builder->add('exported_since', 'datetime', [
-            'widget' => 'single_text',
-            'format' => 'y-m-d',
-            'label' => false,
-            'input' => 'string',
-            'attr'   => [
-                'placeholder'  => 'pim_connector.export.date.placeholder',
-                'class'        => 'datepicker add-on input-large',
-                'autocomplete' => 'off',
-            ]
-        ])->shouldBeCalled();
+        $builder->add('exported_since', 'datetime', Argument::that(function ($value) {
+            return 
+                isset($value['widget']) && 'single_text' === $value['widget'] &&
+                isset($value['format']) && 'y-m-d' === $value['format'] &&
+                isset($value['input']) && 'string' === $value['input'] &&
+                isset($value['constraints'][0]) && $value['constraints'][0] instanceof Callback
+            ;
+        }))->shouldBeCalled();
 
         $this->buildForm($builder, ['job_instance' => $jobInstance]);
     }

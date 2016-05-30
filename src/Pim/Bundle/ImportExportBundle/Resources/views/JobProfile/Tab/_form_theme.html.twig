@@ -1,10 +1,12 @@
 {% block pim_updated_parameter_type_row %}
     <div class="control-group" id="{{ form.vars.id }}">
         {{ form_label(form, null, {'label_attr': {'class': 'control-label'}}) }}
-        <div class="controls">
+        <div class="controls {% if errors|length > 0 %} validation-error{% endif %}">
             {{ form_widget(form.updated_condition) }}
 
             {{ form_widget(form.exported_since) }}
+
+            {{ form_errors(form.exported_since) }}
 
             {% if help is defined %}
                 <div class="icons-container">

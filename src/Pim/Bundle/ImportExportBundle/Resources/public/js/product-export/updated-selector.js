@@ -19,28 +19,47 @@ define(
                 this.$conditionTime = $container.find('select');
                 this.$exportedSince = $container.find('input');
 
-                this.displayInput();
-                this.listenTo();
-                
+                this._displayDateElement();
+
+                this.$conditionTime.on('change', this._displayDateElement.bind(this));
                 Datepicker.init($container);
             },
 
             /**
-             * Listen to javascript events
+             * Display or hide the datepicker depending condition time value
+             *
+             * @private
              */
-            listenTo: function () {
-                this.$conditionTime.on('change', this.displayInput.bind(this));
+            _displayDateElement: function () {
+                var $validationTooltip = this._findValidationTooltip();
+                if ('since_date' == this.$conditionTime.val()) {
+                    this.$exportedSince.show().prop('disabled', false);
+                    $validationTooltip.show();
+                } else {
+                    this.$exportedSince.hide().prop('disabled', true);
+                    $validationTooltip.hide();
+                }
             },
 
             /**
-             * Display or hide the datepicker depending condition time value
+             * Find the validation tooltip element
+             *
+             * @returns {jQuery}
+             *
+             * @private
              */
-            displayInput: function () {
-                if ('since_date' == this.$conditionTime.val()) {
-                    this.$exportedSince.show();
-                } else {
-                    this.$exportedSince.hide();
+            _findValidationTooltip: function() {
+                var $iconContainer = this.$exportedSince.next();
+                if (!$iconContainer.length) {
+                    return $();
                 }
+
+                var $validationTooltip = $iconContainer.find('.validation-tooltip');
+                if (!$validationTooltip.length) {
+                    return $();
+                }
+
+                return $validationTooltip;
             }
         };
     }

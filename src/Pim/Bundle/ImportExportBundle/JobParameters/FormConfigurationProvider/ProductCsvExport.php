@@ -139,8 +139,8 @@ class ProductCsvExport implements FormConfigurationProviderInterface
                 'type'    => 'pim_updated_parameter_type',
                 'options' => [
                     'job_instance' => $jobInstance,
-                    'label'        => 'pim_connector.export.updated.label',
-                    'help'         => 'pim_connector.export.updated.help',
+                    'label'        => 'pim_connector.export.updated.updated_condition.label',
+                    'help'         => 'pim_connector.export.updated.updated_condition.help',
                     'attr'         => ['data-tab' => 'content']
                 ]
             ],

@@ -8,7 +8,6 @@ use Pim\Bundle\BaseConnectorBundle\Validator\Constraints\Channel;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\Expression;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -51,9 +50,7 @@ class ProductCsvExport implements ConstraintCollectionProviderInterface
         ];
         $constraintFields['enabled'] = new NotBlank(['groups' => 'Execution']);
         $constraintFields['updated_condition'] = new NotBlank(['groups' => 'Execution']);
-        $constraintFields['exported_since'] = [
-            new DateTime(['groups' => 'Execution']),
-        ];
+        $constraintFields['exported_since'] = new DateTime(['groups' => 'Execution']);
         $constraintFields['locales'] = new NotBlank([
             'groups'  => 'Execution',
             'message' => 'pim_connector.export.locales.validation.not_blank'
