@@ -181,6 +181,7 @@ class ProductReaderSpec extends ObjectBehavior
         $jobParameters->get('locales')->willReturn(['fr_FR', 'en_US']);
         $jobParameters->get('families')->willReturn('');
         $jobParameters->get('completeness')->willReturn('all_complete');
+        $jobParameters->get('updated_condition')->willReturn(null);
 
         $channelRepository->findOneByIdentifier('mobile')->willReturn($channel);
         $channel->getCategory()->willReturn($channelRoot);
@@ -215,6 +216,7 @@ class ProductReaderSpec extends ObjectBehavior
         $jobParameters->get('locales')->willReturn(['fr_FR', 'en_US']);
         $jobParameters->get('families')->willReturn('');
         $jobParameters->get('completeness')->willReturn('all_incomplete');
+        $jobParameters->get('updated_condition')->willReturn(null);
 
         $channelRepository->findOneByIdentifier('mobile')->willReturn($channel);
         $channel->getCategory()->willReturn($channelRoot);
@@ -248,6 +250,7 @@ class ProductReaderSpec extends ObjectBehavior
         $jobParameters->get('updated')->willReturn('all');
         $jobParameters->get('families')->willReturn('');
         $jobParameters->get('completeness')->willReturn('at_least_one_complete');
+        $jobParameters->get('updated_condition')->willReturn(null);
 
         $channelRepository->findOneByIdentifier('mobile')->willReturn($channel);
         $channel->getCategory()->willReturn($channelRoot);

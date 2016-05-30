@@ -27,11 +27,11 @@ class ProductCsvExportSpec extends ObjectBehavior
             'decimalSeparator'  => '.',
             'dateFormat'        => 'yyyy-MM-dd',
             'channel'           => null,
+            'locales'           => [],
             'enabled'           => 'enabled',
             'updated_condition' => 'all',
             'exported_since'    => null,
             'families'          => null,
-            'locales'           => [],
             'completeness'     => 'at_least_one_complete',
         ]);
     }

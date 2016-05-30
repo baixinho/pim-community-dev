@@ -892,7 +892,7 @@ class WebUser extends RawMinkContext
         $value = $input->getValue();
         
         if ($exceptedValue !== $value) {
-            throw new \Exception(sprintf('The date input does not contain %s but %s', $exceptedValue, $value));
+            throw new \Exception(sprintf('The date input does not contain "%s" but "%s"', $exceptedValue, $value));
         }
     }
 

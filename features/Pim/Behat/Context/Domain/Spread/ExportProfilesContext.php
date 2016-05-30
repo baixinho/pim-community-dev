@@ -48,7 +48,7 @@ class ExportProfilesContext extends PimContext
         $content = trim(file_get_contents($path));
 
         if (!empty($content)) {
-            throw new \Exception('The file is not empty');
+            throw new \Exception(sprintf('The file is not empty (exported code %s)', $code));
         }
     }
 
@@ -301,6 +301,8 @@ class ExportProfilesContext extends PimContext
      * @param string $code
      *
      * @return string
+     *
+     * @throws ExpectationException
      */
     protected function getExportedFile($code)
     {

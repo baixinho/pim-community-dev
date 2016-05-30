@@ -1,13 +1,16 @@
 'use strict';
-
+/**
+ * Dynamic locales selector in the product export builder form
+ *
+ * @author    Arnaud Langlade <arnaud.langlade@akeneo.com>
+ * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 define(
     ['jquery', 'datepicker'],
     function ($, Datepicker) {
-
         return {
-            /** @var {jQuery} */
             $conditionTime: null,
-            /** @var {jQuery} */
             $exportedSince: null,
 
             /**
