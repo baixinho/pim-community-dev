@@ -58,9 +58,7 @@ class CharsetValidator extends AbstractConfigurableStepElement implements StepEx
      */
     public function validate()
     {
-        $filePath = $this->archiveStorage->getPathname($this->stepExecution->getJobExecution());
-        $file = new \SplFileInfo($filePath);
-        if (!in_array($file->getExtension(), $this->whiteListExtension)) {
+        if (!in_array($this->getFileExtension(), $this->whiteListExtension)) {
             $this->validateEncoding();
         } else {
             $this->stepExecution->addSummaryInfo(
@@ -109,6 +107,27 @@ class CharsetValidator extends AbstractConfigurableStepElement implements StepEx
         }
 
         $this->stepExecution->addSummaryInfo('charset_validator.title', $this->charset . ' OK');
+    }
+
+    /**
+     * Get the file extension of the file to validate.
+     *
+     * @return string
+     */
+    protected function getFileExtension()
+    {
+        $filePath = $this->archiveStorage->getPathname($this->stepExecution->getJobExecution());
+        $file = new \SplFileInfo($filePath);
+
+        $extension = $file->getExtension();
+        if ('' === $extension) {
+            // the "originalFilename" can has been set earlier in the context by other steps
+            $originalFilename = $this->stepExecution->getJobExecution()->getExecutionContext()->get('originalFilename');
+            $info = pathinfo($originalFilename);
+            $extension = $info['extension'];
+        }
+
+        return $extension;
     }
 
     /**
