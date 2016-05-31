@@ -3,7 +3,7 @@ parameters:
 
 services:
     pim_notification.manager.notification:
-        class: %pim_notification.manager.notification.class%
+        class: '%pim_notification.manager.notification.class%'
         deprecated: 'The "%service_id%" service is deprecated and will be remove in 1.7, please look at each method to know the replacement'
         arguments:
             - '@pim_notification.repository.user_notification'

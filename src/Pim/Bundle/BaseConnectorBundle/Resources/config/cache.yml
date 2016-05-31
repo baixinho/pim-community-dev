@@ -4,13 +4,13 @@ parameters:
 
 services:
     pim_transform.cache.doctrine_cache:
-        class: %pim_transform.cache.doctrine_cache.class%
+        class: '%pim_transform.cache.doctrine_cache.class%'
         deprecated: 'The "%service_id%" service is deprecated and will be removed in 1.6'
         arguments:
             - '@pim_catalog.doctrine.smart_manager_registry'
 
     pim_transform.cache.cache_clearer:
-        class: %pim_transform.cache.cache_clearer.class%
+        class: '%pim_transform.cache.cache_clearer.class%'
         deprecated: 'The "%service_id%" service is deprecated and will be removed in 1.6'
         arguments:
             - '@pim_transform.cache.doctrine_cache'

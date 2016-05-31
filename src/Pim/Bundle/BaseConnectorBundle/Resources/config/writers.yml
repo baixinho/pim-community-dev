@@ -7,21 +7,21 @@ parameters:
 
 services:
     pim_base_connector.writer.file:
-        class: %pim_base_connector.writer.file.class%
+        class: '%pim_base_connector.writer.file.class%'
         deprecated: 'The "%service_id%" service is deprecated and will be removed in 1.6, please use @pim_connector.writer.file.simple_file'
 
     pim_base_connector.writer.file.csv:
-        class: %pim_base_connector.writer.file.csv.class%
+        class: '%pim_base_connector.writer.file.csv.class%'
         deprecated: 'The "%service_id%" service is deprecated and will be removed in 1.6, please use @pim_connector.writer.file.csv'
 
     pim_base_connector.writer.file.csv_product:
-        class: %pim_base_connector.writer.file.csv_product.class%
+        class: '%pim_base_connector.writer.file.csv_product.class%'
         deprecated: 'The "%service_id%" service is deprecated and will be removed in 1.6, please use @pim_connector.writer.file.csv_product'
         arguments:
             - '@pim_connector.writer.file.file_exporter'
 
     pim_base_connector.writer.file.csv_variant_group:
-        class: %pim_base_connector.writer.file.csv_variant_group.class%
+        class: '%pim_base_connector.writer.file.csv_variant_group.class%'
         deprecated: 'The "%service_id%" service is deprecated and will be removed in 1.7, please use @pim_connector.writer.file.csv_variant_group'
         arguments:
             - '@pim_connector.writer.file.file_exporter'
