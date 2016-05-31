@@ -1,0 +1,12 @@
+parameters:
+    pim_versioning.doctrine.query.registry.class: Pim\Component\Versioning\Query\Filters\VersionFilterRegistry
+    pim_versioning.doctrine.query.filter.class:
+
+services:
+    pim_versioning.doctrine.query.registry:
+      class: '%pim_versioning.doctrine.query.registry.class%'
+
+    pim_versioning.doctrine.query.filter.first_last_version:
+        class: '%pim_versioning.doctrine.query.filter.version.class%'
+        tags:
+            - { name: 'pim_versioning.doctrine.query.filter' }

@@ -102,22 +102,24 @@ class PurgeCommand extends ContainerAwareCommand
             $output->writeln('<info>Warning. Both --more-than-days and --less-than-days options have been set. The option used will be --more-than-days.</info>');
         }
 
-        $versions = $versionManager->getVersionsByDate($resourceName, $dateOperator, $numberOfDays);
-        $versions = $versionManager->purgeVersions($versions);
-        if (0 === count($versions)) {
-            $output->writeln(sprintf('<info>No versions found for entity %s. Nothing to do.</info>', count($versions)));
-
-            return;
-        }
-        if ($isDryRun) {
-            $output->writeln(sprintf('<info>Dry run mode activated. %s versions were found for deletion.</info>', count($versions)));
-
-            return;
-        }
-
-        $output->writeln(sprintf('<info>Starting the deletion for entity %s.</info>', $entityType));
-        $versionManager->purgeVersions($versions);
+        $versionPurger = $this->getVersionPurger();
+        $versionPurger->purgeResources(['resourceName'=> $resourceName]);
         $output->writeln(sprintf('<info>Successfully delete the versions of entity %s.</info>', $entityType));
+
+//        $versions = $versionManager->getVersionsByDate($resourceName, $dateOperator, $numberOfDays);
+//        $versions = $versionManager->purgeVersions($versions);
+//        if (0 === count($versions)) {
+//            $output->writeln(sprintf('<info>No versions found for entity %s. Nothing to do.</info>', count($versions)));
+//
+//            return;
+//        }
+//        if ($isDryRun) {
+//            $output->writeln(sprintf('<info>Dry run mode activated. %s versions were found for deletion.</info>', count($versions)));
+//            return;
+//        }
+
+//        $output->writeln(sprintf('<info>Starting the deletion for entity %s.</info>', $entityType));
+//        $versionManager->purgeVersions($versions);
     }
 
     /**
@@ -126,5 +128,10 @@ class PurgeCommand extends ContainerAwareCommand
     protected function getVersionManager()
     {
         return $this->getContainer()->get('pim_versioning.manager.version');
+    }
+
+    protected function getVersionPurger()
+    {
+        return $this->getContainer()->get('pim_versioning.purger.version');
     }
 }

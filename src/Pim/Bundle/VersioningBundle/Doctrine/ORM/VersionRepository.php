@@ -141,50 +141,49 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
             ['loggedAt' => $sort]
         );
     }
-
-    /**
-     * Find version by date
-     *
-     * @param string $resourceName
-     * @param string $operator
-     *
-     * @param \Datetime $limitDate
-     *
-     * @return array
-     */
-    public function getResourcesByDate($resourceName, $operator, \Datetime $limitDate)
-    {
-        $qb = $this->createQueryBuilder('v')
-            ->where(sprintf('v.resourceName = \'%s\'', $resourceName));
-
-        switch ($operator) {
-            case '<':
-                $qb->andWhere($qb->expr()->lt('v.loggedAt', ':limit_date'));
-                break;
-            case '>':
-                $qb->andWhere($qb->expr()->gt('v.loggedAt', ':limit_date'));
-                break;
-            default:
-                break;//TODO
-
-        }
-
-        $qb->setParameter('limit_date', $limitDate, \Doctrine\DBAL\Types\Type::DATETIME);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * Remove versions
-     *
-     * @param array $versions
-     */
-    public function deleteResources(array $versions)
-    {
-        $em = $this->getEntityManager();
-        foreach ($versions as $version) {
-            $em->remove($version);
-        }
-        $em->flush();
-    }
+//    /**
+//     * Find version by date
+//     *
+//     * @param string $resourceName
+//     * @param string $operator
+//     *
+//     * @param \Datetime $limitDate
+//     *
+//     * @return array
+//     */
+//    public function getResourcesByDate($resourceName, $operator, \Datetime $limitDate)
+//    {
+//        $qb = $this->createQueryBuilder('v')
+//            ->where(sprintf('v.resourceName = \'%s\'', $resourceName));
+//
+//        switch ($operator) {
+//            case '<':
+//                $qb->andWhere($qb->expr()->lt('v.loggedAt', ':limit_date'));
+//                break;
+//            case '>':
+//                $qb->andWhere($qb->expr()->gt('v.loggedAt', ':limit_date'));
+//                break;
+//            default:
+//                break;//TODO
+//
+//        }
+//
+//        $qb->setParameter('limit_date', $limitDate, \Doctrine\DBAL\Types\Type::DATETIME);
+//
+//        return $qb->getQuery()->getResult();
+//    }
+//
+//    /**
+//     * Remove versions
+//     *
+//     * @param array $versions
+//     */
+//    public function deleteResources(array $versions)
+//    {
+//        $em = $this->getEntityManager();
+//        foreach ($versions as $version) {
+//            $em->remove($version);
+//        }
+//        $em->flush();
+//    }
 }
